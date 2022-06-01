@@ -15,3 +15,8 @@ protoc \
     --go-grpc_out=client/go \
     --go-grpc_opt=paths=source_relative \
     proto/greeter.proto
+
+echo "generate flutter-client"
+protoc \
+    --dart_out=grpc:client/flutter/lib/proto \
+    -Iproto proto/greeter.proto
