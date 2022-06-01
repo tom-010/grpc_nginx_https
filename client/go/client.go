@@ -2,21 +2,23 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"io"
 	"log"
 	"time"
 
 	pb "deniffel.com/grpc_nginx_https/proto"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 )
 
 const (
-	address = "api.example.com:80"
+	address = "api.example.com:443"
 )
 
 func main() {
-	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
+	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
