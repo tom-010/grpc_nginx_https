@@ -1,0 +1,26 @@
+
+syntax = "proto3";
+
+option go_package = "deniffel.com/grpc_flutter_web;grpc_flutter_web";
+
+package helloworld;
+
+service Greeter {
+  // unary call
+  rpc SayHello(HelloRequest) returns (HelloReply);
+  // server streaming call
+  rpc SayRepeatHello(RepeatHelloRequest) returns (stream HelloReply);
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message RepeatHelloRequest {
+  string name = 1;
+  int32 count = 2;
+}
+
+message HelloReply {
+  string message = 1;
+}
