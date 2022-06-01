@@ -3,7 +3,7 @@ version: "3.9"
 services:
 
   reverse-proxy:
-    build: reverse_proxy
+    build: reverse-proxy
     ports:
         - "80:80"
         - "443:443"
@@ -17,3 +17,9 @@ services:
       PASSWORD: password
     expose:
       - 50051
+
+  web-api:
+    build: web-api
+    network_mode: host
+    depends_on:
+      - api

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_web.dart';
 
 import 'proto/greeter.pbgrpc.dart';
 
@@ -33,12 +35,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 
-
 class _MyHomePageState extends State<MyHomePage> {
   List<String> messages = [];
   bool loading = false;
-
-
 
   void log(String msg) {
     setState(() {
@@ -51,7 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
       loading = true;
     });
 
-    final channel = ClientChannel('api.example.com',
+    
+    final channel = kIsWeb
+        ? GrpcWebClientChannel.xhr(Uri.parse('http://localhost:8080')) 
+        : ClientChannel('api.example.com',
             port: 443,
             options: ChannelOptions(
               credentials: const ChannelCredentials.secure(),
