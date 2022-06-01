@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"encoding/base64"
 	"io"
 	"log"
 	"time"
@@ -18,7 +19,16 @@ const (
 
 func main() {
 	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
-	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock())
+	auth := basicAuth{
+		username: "tom",
+		password: "password",
+	}
+	opts := []grpc.DialOption{
+		grpc.WithPerRPCCredentials(auth),
+		grpc.WithTransportCredentials(creds),
+		grpc.WithBlock(),
+	}
+	conn, err := grpc.Dial(address, opts...)
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -47,4 +57,21 @@ func main() {
 		log.Println(r.Message)
 	}
 
+}
+
+type basicAuth struct {
+	username string
+	password string
+}
+
+func (b basicAuth) GetRequestMetadata(ctx context.Context, in ...string) (map[string]string, error) {
+	auth := b.username + ":" + b.password
+	enc := base64.StdEncoding.EncodeToString([]byte(auth))
+	return map[string]string{
+		"authorization": "Basic " + enc,
+	}, nil
+}
+
+func (b basicAuth) RequireTransportSecurity() bool {
+	return true
 }
