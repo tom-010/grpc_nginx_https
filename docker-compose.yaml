@@ -14,5 +14,3 @@ services:
     build: api
     expose:
       - 50051
-    ports:
-      - "50051:50051"

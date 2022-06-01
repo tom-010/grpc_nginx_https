@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	address = "localhost:50051"
+	address = "api.example.com:80"
 )
 
 func main() {
