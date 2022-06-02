@@ -23,7 +23,7 @@ services:
 
   web-api:
     build: web-api
-    ports:
-      - "8080:8080"
+    expose:
+      - 8080
     depends_on:
       - api
