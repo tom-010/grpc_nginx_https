@@ -11,21 +11,19 @@ services:
       - ./certs:/certs
     depends_on:
       - api
-      - web-api
+      - web-api 
 
   api:
     build: api
     environment:
       USERNAME: tom
       PASSWORD: password
-    ports:
-      - "50051:50051"
     expose:
       - 50051
 
   web-api:
     build: web-api
-    expose:
-      - 8080
+    ports:
+      - "8080:8080"
     depends_on:
       - api
