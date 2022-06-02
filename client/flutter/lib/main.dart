@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     
     final channel = kIsWeb
-        ? GrpcWebClientChannel.xhr(Uri.parse('http://localhost:8080')) 
+        ? GrpcWebClientChannel.xhr(Uri.parse('https://web-api.example.com')) 
         : ClientChannel('api.example.com',
             port: 443,
             options: ChannelOptions(
