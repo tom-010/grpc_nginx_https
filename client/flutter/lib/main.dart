@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:client/channel_builders/build_channel.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
-import 'package:grpc/grpc_web.dart';
 
 import 'proto/greeter.pbgrpc.dart';
 
@@ -51,15 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     
-    final channel = kIsWeb
-        ? GrpcWebClientChannel.xhr(Uri.parse('https://web-api.example.com')) 
-        : ClientChannel('api.example.com',
-            port: 443,
-            options: ChannelOptions(
-              credentials: const ChannelCredentials.secure(),
-              codecRegistry:
-                  CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
-            ));
+    final channel = bulidChannel();
 
 
     String token = base64Encode(utf8.encode('tom:password'));
