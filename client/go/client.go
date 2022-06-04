@@ -18,7 +18,7 @@ const (
 )
 
 func main() {
-	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
+	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: false})
 	auth := basicAuth{
 		username: "tom",
 		password: "password",
